@@ -10,11 +10,9 @@ export class AppService {
     @Inject('PG') private clientPg: Client,
     @Inject('TASKS') private tasks: any[],
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
-  ) { }
+  ) {}
   getHello(): string {
-    const apiKey = this.configService.apiKey;
-    const name = this.configService.database.name;
-    return `Hello World!, my Auth key is. . . ${apiKey} ${name}`;
+    return `Hello World!, this is NESTJS Geek store by joseDev`;
   }
 
   getTasks() {
