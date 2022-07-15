@@ -14,16 +14,22 @@ const API_KEY_PROD = 'PROD1212121SA';
     TypeOrmModule.forRootAsync({
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
-        const { user, password, host, dbName, port } = configService.postgres; // aca tambien referenciar mysql
+        // const { user, password, host, dbName, port } = configService.postgres; // aca tambien referenciar mysql
         return {
           type: 'postgres', //Aqui se cambiaria por el mysql si se quiere
-          database: dbName, //tambien instalar mysql2 con npm, y arribica indicar que el mysql
-          username: user,
-          password,
-          host,
-          port,
+          // Todo esto abajo se cambia por url para el despliegue en heroku
+          // database: dbName, //tambien instalar mysql2 con npm, y arribica indicar que el mysql
+          // username: user,
+          // password,
+          // host,
+          // port,
+          url: configService.herokuPostgres,
           synchronize: false, // mejor estar el false, y usar siempre migraciones
           autoLoadEntities: true,
+          // esto es importante y lo pide heroku-postgres
+          ssl: {
+            rejectUnauthorized: false,
+          },
         };
       },
     }),
@@ -36,13 +42,17 @@ const API_KEY_PROD = 'PROD1212121SA';
     {
       provide: 'PG',
       useFactory: (configService: ConfigType<typeof config>) => {
-        const { user, host, dbName, password, port } = configService.postgres;
+        // const { user, host, dbName, password, port } = configService.postgres;
         const client = new Client({
-          user,
-          host,
-          database: dbName,
-          password,
-          port,
+          connectionString: configService.herokuPostgres,
+          ssl: {
+            rejectUnauthorized: false,
+          },
+          // user,
+          // host,
+          // database: dbName,
+          // password,
+          // port,
         });
         client.connect();
         return client;
