@@ -16,13 +16,14 @@ const API_KEY_PROD = 'PROD1212121SA';
       useFactory: (configService: ConfigType<typeof config>) => {
         // const { user, password, host, dbName, port } = configService.postgres; // aca tambien referenciar mysql
         return {
-          type: 'postgres', //Aqui se cambiaria por el mysql si se quiere
           // Todo esto abajo se cambia por url para el despliegue en heroku
           // database: dbName, //tambien instalar mysql2 con npm, y arribica indicar que el mysql
           // username: user,
           // password,
           // host,
           // port,
+          entities: [__dirname + './**/*.entity{.ts,.js}'],
+          type: 'postgres', //Aqui se cambiaria por el mysql si se quiere
           url: configService.herokuPostgres,
           synchronize: false, // mejor estar el false, y usar siempre migraciones
           autoLoadEntities: true,
