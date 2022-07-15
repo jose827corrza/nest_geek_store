@@ -6,7 +6,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "typeorm:prod": "node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "typeorm:prod2": "typeorm-ts-node-commonjs",
+    "typeorm:prod": "node -r ts-node/register ./node_modules/typeorm/cli.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migrations:generate": "npm run typeorm -- migration:generate -n",
     "migrations:prod": "npm run typeorm:prod -- migration:run",
